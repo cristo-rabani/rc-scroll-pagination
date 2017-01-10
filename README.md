@@ -3,19 +3,10 @@ A react component for pagination with scrolling.
 It will execute the subscribing function after fetching function.
 Scroll pagination can listen from different scroll provider (not only from window or first parent as is in the case other packages)
 
-## Parameters
-
-### For ScrollPagination
-- `step` *\(default `25`\)* count of loading data per one part
-- `Loader` Component for waiting, until data will not be ready
-- `onSubscribe` *\(default `() => {}`\)* Callback for moment when data should be subscribed, It must to return object with method stop
-- `onFetchData` *\(required\)* Callback when data should be fetched
-- `eventName` *\(default `contentScroll`\)* Name of event for proper scroll provider
-- `children` *\(required\)* Mapper function for rendering of items 
-
-### For ScrollProvider
-- `eventName` *\(default `contentScroll`\)* Name of event under scroll will be provided
-- `className, style`
+## Installation
+```
+npm install --save rc-scroll-pagination
+```
 
 ## Your listing
 ```#js
@@ -75,3 +66,17 @@ componentWillUnmount () {
 }
 
 ```
+
+## Parameters
+
+### For ScrollPagination
+- `step` *\(default `25`\)* count of loading data per one part
+- `Loader` Component for waiting, until data will not be ready
+- `onSubscribe` *\(default `() => {}`\)* Callback for moment when data should be subscribed, It must to return object with method stop
+- `onFetchData` *\(required\)* Callback when data should be fetched
+- `eventName` *\(default `contentScroll`\)* Name of event for proper scroll provider
+- `children` *\(required\)* Mapper function for rendering of items 
+
+### For ScrollProvider
+- `eventName` *\(default `contentScroll`\)* Name of event under scroll will be provided
+- `className, style`
