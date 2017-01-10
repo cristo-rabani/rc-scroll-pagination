@@ -4,12 +4,12 @@ It will execute the subscribing function after fetching function.
 Scroll pagination can listen from different scroll provider (not only from window or first parent as is in the case other packages)
 
 ## Installation
-```
+```sh
 npm install --save rc-scroll-pagination
 ```
 
 ## Your listing
-```#js
+```jsx
     <ScrollPagination
         Loader={<Loader />}
         onSubscribe={(params, done) => Meteor.subscribe('myDocs', params, done)}
@@ -24,7 +24,7 @@ npm install --save rc-scroll-pagination
 ## Connecting to layout (a element, which have scrollbar)
 //Should be done once for every listings
 
-```#js
+```jsx
 <ScrollProvider>
     <main className="col-sm-12 no-side-paddings">
         <ScrollPagination onSubscribe onFetchData>
@@ -36,7 +36,7 @@ npm install --save rc-scroll-pagination
 
 ## Custom using of ScrollProvider
 
-```#js
+```jsx
 <ScrollProvider eventName="menuScroll">
     <div style={{height: '10000px'}}>
     {/* ... */}
@@ -45,7 +45,7 @@ npm install --save rc-scroll-pagination
 ```
 
 - consumer (component, that is interested for observation of scroll):
-```
+```js
 import {ScrollProvider} from 'rc-scroll-pagination';
 
 //----- Your Component:
