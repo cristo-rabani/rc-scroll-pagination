@@ -55,7 +55,7 @@ Scroll pagination can listen from different scroll provider (not only from windo
 
 - consumer (component, that is interested for observation of scroll):
 ```
-import ScrollProvider from '/imports/components//ScrollProvider';
+import {ScrollProvider} from 'rc-scroll-pagination';
 
 //----- Your Component:
 
