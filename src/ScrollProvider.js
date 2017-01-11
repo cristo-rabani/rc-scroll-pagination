@@ -51,7 +51,7 @@ ScrollProvider.onScroll = (listener, eventName = 'contentScroll') => {
     Events.on(eventName, listener);
 };
 
-ScrollProvider.offScroll = (listener, eventName = 'contentScroll') => Events.off(eventName, listener);
+ScrollProvider.offScroll = (listener, eventName = 'contentScroll') => Events.removeListener(eventName, listener);
 
 
 export default ScrollProvider;

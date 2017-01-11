@@ -110,7 +110,7 @@ ScrollProvider.onScroll = function (listener) {
 
 ScrollProvider.offScroll = function (listener) {
     var eventName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'contentScroll';
-    return Events.off(eventName, listener);
+    return Events.removeListener(eventName, listener);
 };
 
 exports.default = ScrollProvider;
