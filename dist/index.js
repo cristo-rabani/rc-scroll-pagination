@@ -34,7 +34,7 @@ var _ScrollProvider2 = _interopRequireDefault(_ScrollProvider);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ONE_PART = 25;
-var EXCLUSIVE_PROPS = ['children', 'step', 'Loader', 'onSubscribe', 'onFetchData', 'eventName'];
+var EXCLUSIVE_PROPS = ['children', 'step', 'Loader', 'onSubscribe', 'onFetchData', 'eventName', 'ContainerComponent', 'ItemComponent'];
 
 var ScrollPagination = exports.ScrollPagination = function (_React$Component) {
     (0, _inherits3.default)(ScrollPagination, _React$Component);
@@ -78,11 +78,7 @@ var ScrollPagination = exports.ScrollPagination = function (_React$Component) {
                 var data = onFetchData() || [];
                 data.forEach(function (item) {
                     if (!_this.items[item._id]) {
-                        _this.items[item._id] = _react2.default.createElement(
-                            _List.ListItem,
-                            { key: item._id },
-                            children(item)
-                        );
+                        _this.items[item._id] = _react2.default.createElement(_this.props.ItemComponent || _List.ListItem, { key: item._id }, children(item));
                     }
                     _ids.push(item._id);
                 });
@@ -115,25 +111,10 @@ var ScrollPagination = exports.ScrollPagination = function (_React$Component) {
             return _this2.items[id];
         });
         if (hasNextPart) {
-            if (this.props.Loader) {
-                items.push(_react2.default.createElement(
-                    _List.ListItem,
-                    { key: 'loader' },
-                    this.props.Loader
-                ));
-            } else {
-                items.push(_react2.default.createElement(
-                    _List.ListItem,
-                    { key: 'loader' },
-                    'Loading ...'
-                ));
-            }
+            items.push(_react2.default.createElement(this.props.ItemComponent || _List.ListItem, { key: 'loader' }, this.props.Loader || 'Loading ...'));
         }
-        return _react2.default.createElement(
-            _List.List,
-            props,
-            items
-        );
+
+        return _react2.default.createElement(this.props.ContainerComponent || _List.List, props, items);
     };
 
     ScrollPagination.prototype.componentWillUnmount = function componentWillUnmount() {
@@ -155,6 +136,8 @@ ScrollPagination.defaultProps = {
 
 ScrollPagination.propTypes = {
     Loader: _react2.default.PropTypes.node,
+    ContainerComponent: _react2.default.PropTypes.func,
+    ItemComponent: _react2.default.PropTypes.func,
     step: _react2.default.PropTypes.number,
     eventName: _react2.default.PropTypes.string,
     onSubscribe: _react2.default.PropTypes.func,
