@@ -72,10 +72,12 @@ componentWillUnmount () {
 ### For ScrollPagination
 - `step` *\(default `25`\)* count of loading data per one part
 - `Loader` Component for waiting, until data will not be ready
+- `Item` Component that renders an item, `material-ui/ListItem` by default
+- `Container` Component that contains items, `material-ui/List` by default
 - `onSubscribe` *\(default `() => {}`\)* Callback for moment when data should be subscribed, It must to return object with method stop
 - `onFetchData` *\(required\)* Callback when data should be fetched
 - `eventName` *\(default `contentScroll`\)* Name of event for proper scroll provider
-- `children` *\(required\)* Mapper function for rendering of items 
+- `children` *\(required\)* Mapper function for rendering of items
 
 ### For ScrollProvider
 - `eventName` *\(default `contentScroll`\)* Name of event under scroll will be provided

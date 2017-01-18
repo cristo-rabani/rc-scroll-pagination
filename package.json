@@ -1,6 +1,6 @@
 {
-  "name": "rc-scroll-pagination",
-  "version": "1.0.1",
+  "name": "vazco-scroll-pagination",
+  "version": "1.0.0",
   "description": "A react component for pagination with scrolling.",
   "main": "index.js",
   "scripts": {

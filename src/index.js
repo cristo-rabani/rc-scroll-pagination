@@ -4,7 +4,9 @@ import _ from 'lodash';
 import ScrollProvider from './ScrollProvider';
 
 const ONE_PART = 25;
-const EXCLUSIVE_PROPS = ['children', 'step', 'Loader', 'onSubscribe', 'onFetchData', 'eventName'];
+const EXCLUSIVE_PROPS = [
+    'children', 'step', 'Loader', 'onSubscribe', 'onFetchData', 'eventName', 'ContainerComponent', 'ItemComponent'
+];
 
 export class ScrollPagination extends React.Component {
 
@@ -27,14 +29,14 @@ export class ScrollPagination extends React.Component {
             _scrollLeft = scrollLeft;
             const {children, step = ONE_PART, onSubscribe, onFetchData} = this.props;
             this.handlers.push(onSubscribe({limit: this.limit + step, skip: this.skip}, () => {
-                let _ids = [];
+                const _ids = [];
                 const data = onFetchData() || [];
-                data.forEach((item) => {
+                data.forEach(item => {
                     if (!this.items[item._id]) {
-                        this.items[item._id] = (
-                            <ListItem key={item._id}>
-                                {children(item)}
-                            </ListItem>
+                        this.items[item._id] = React.createElement(
+                            this.props.ItemComponent || ListItem,
+                            {key: item._id},
+                            children(item)
                         );
                     }
                     _ids.push(item._id);
@@ -61,17 +63,17 @@ export class ScrollPagination extends React.Component {
         const props = _.omit(this.props, EXCLUSIVE_PROPS);
         const items = _.take(_ids, this.limit).map(id => this.items[id]);
         if (hasNextPart) {
-            if (this.props.Loader) {
-                items.push(<ListItem key="loader">{this.props.Loader}</ListItem>);
-            } else {
-                items.push(<ListItem key="loader">{'Loading ...'}</ListItem>);
-            }
-
+            items.push(React.createElement(
+                this.props.ItemComponent || ListItem,
+                {key: 'loader'},
+                this.props.Loader || 'Loading ...'
+            ));
         }
-        return (
-            <List {...props}>
-                {items}
-            </List>
+
+        return React.createElement(
+            this.props.ContainerComponent || List,
+            props,
+            items
         );
     }
 
@@ -88,6 +90,8 @@ ScrollPagination.defaultProps = {
 
 ScrollPagination.propTypes = {
     Loader: React.PropTypes.node,
+    ContainerComponent:  React.PropTypes.func,
+    ItemComponent:  React.PropTypes.func,
     step: React.PropTypes.number,
     eventName: React.PropTypes.string,
     onSubscribe: React.PropTypes.func,
