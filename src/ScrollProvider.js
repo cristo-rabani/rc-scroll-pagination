@@ -21,7 +21,7 @@ export class ScrollProvider extends React.Component {
                 Events.lastEventData[eventName] = _lastContentScroll;
                 setTimeout(() => Events.emit(eventName, _lastContentScroll), 0);
             }
-        }, 100);
+        }, 100, {trailing: true});
 
     }
 

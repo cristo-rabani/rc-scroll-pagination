@@ -71,7 +71,7 @@ var ScrollProvider = exports.ScrollProvider = function (_React$Component) {
                     return Events.emit(eventName, _lastContentScroll);
                 }, 0);
             }
-        }, 100);
+        }, 100, { trailing: true });
 
         return _this;
     }
