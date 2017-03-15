@@ -103,8 +103,11 @@ ScrollProvider.defaultProps = {
 
 ScrollProvider.onScroll = function (listener) {
     var eventName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'contentScroll';
+    var initialize = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
 
-    Events.lastEventData[eventName] && listener(Events.lastEventData[eventName]);
+    if (initialize) {
+        Events.lastEventData[eventName] && listener(Events.lastEventData[eventName]);
+    }
     Events.on(eventName, listener);
 };
 

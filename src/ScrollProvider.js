@@ -46,8 +46,10 @@ ScrollProvider.defaultProps = {
     eventName: 'contentScroll'
 };
 
-ScrollProvider.onScroll = (listener, eventName = 'contentScroll') => {
-    Events.lastEventData[eventName] && listener(Events.lastEventData[eventName]);
+ScrollProvider.onScroll = (listener, eventName = 'contentScroll', initialize = true) => {
+    if (initialize) {
+        Events.lastEventData[eventName] && listener(Events.lastEventData[eventName]);
+    }
     Events.on(eventName, listener);
 };
 
