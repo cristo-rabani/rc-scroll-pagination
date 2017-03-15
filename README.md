@@ -57,7 +57,7 @@ constructor () {
 
 componentWillMount () {
     //register method from your component as a observer:
-    ScrollProvider.onScroll(this.updateMe, 'menuScroll');
+    ScrollProvider.onScroll(this.updateMe, 'menuScroll', {initialize = true, highPrecision = false});
 }
 
 componentWillUnmount () {
