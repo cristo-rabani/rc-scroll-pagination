@@ -64,11 +64,15 @@ var ScrollProvider = exports.ScrollProvider = function (_React$Component) {
             var top = _lastContentScroll && _lastContentScroll.scrollTop || 0;
             var left = _lastContentScroll && _lastContentScroll.scrollLeft || 0;
             var isFirst = !_lastContentScroll && (clientHeight || clientWidth);
+            _lastContentScroll = { clientHeight: clientHeight, clientWidth: clientWidth, scrollHeight: scrollHeight, scrollLeft: scrollLeft, scrollTop: scrollTop, scrollWidth: scrollWidth };
             if (isFirst || Math.abs(top - scrollTop) > 50 || Math.abs(left - scrollLeft) > 50) {
-                _lastContentScroll = { clientHeight: clientHeight, clientWidth: clientWidth, scrollHeight: scrollHeight, scrollLeft: scrollLeft, scrollTop: scrollTop, scrollWidth: scrollWidth };
                 Events.lastEventData[eventName] = _lastContentScroll;
                 setTimeout(function () {
                     return Events.emit(eventName, _lastContentScroll);
+                }, 0);
+            } else {
+                setTimeout(function () {
+                    return Events.emit(eventName + '-highPrecision', _lastContentScroll);
                 }, 0);
             }
         }, 100, { trailing: true });
@@ -103,17 +107,27 @@ ScrollProvider.defaultProps = {
 
 ScrollProvider.onScroll = function (listener) {
     var eventName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'contentScroll';
-    var initialize = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+
+    var _ref3 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+        _ref3$initialize = _ref3.initialize,
+        initialize = _ref3$initialize === undefined ? true : _ref3$initialize,
+        _ref3$highPrecision = _ref3.highPrecision,
+        highPrecision = _ref3$highPrecision === undefined ? false : _ref3$highPrecision;
 
     if (initialize) {
         Events.lastEventData[eventName] && listener(Events.lastEventData[eventName]);
     }
     Events.on(eventName, listener);
+    if (highPrecision) {
+        Events.on(eventName + '-highPrecision', listener);
+    }
 };
 
 ScrollProvider.offScroll = function (listener) {
     var eventName = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'contentScroll';
-    return Events.removeListener(eventName, listener);
+
+    Events.removeListener(eventName, listener);
+    Events.removeListener(eventName + '-highPrecision', listener);
 };
 
 exports.default = ScrollProvider;

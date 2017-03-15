@@ -16,10 +16,12 @@ export class ScrollProvider extends React.Component {
             const top = (_lastContentScroll && _lastContentScroll.scrollTop) || 0;
             const left = (_lastContentScroll && _lastContentScroll.scrollLeft) || 0;
             const isFirst = !_lastContentScroll && (clientHeight || clientWidth);
+            _lastContentScroll = {clientHeight, clientWidth, scrollHeight, scrollLeft, scrollTop, scrollWidth};
             if (isFirst || (Math.abs(top - scrollTop) > 50 || Math.abs(left - scrollLeft) > 50)) {
-                _lastContentScroll = {clientHeight, clientWidth, scrollHeight, scrollLeft, scrollTop, scrollWidth};
                 Events.lastEventData[eventName] = _lastContentScroll;
                 setTimeout(() => Events.emit(eventName, _lastContentScroll), 0);
+            } else {
+                setTimeout(() => Events.emit(eventName + '-highPrecision', _lastContentScroll), 0);
             }
         }, 100, {trailing: true});
 
@@ -46,14 +48,20 @@ ScrollProvider.defaultProps = {
     eventName: 'contentScroll'
 };
 
-ScrollProvider.onScroll = (listener, eventName = 'contentScroll', initialize = true) => {
+ScrollProvider.onScroll = (listener, eventName = 'contentScroll', {initialize = true, highPrecision = false} = {}) => {
     if (initialize) {
         Events.lastEventData[eventName] && listener(Events.lastEventData[eventName]);
     }
     Events.on(eventName, listener);
+    if (highPrecision) {
+        Events.on(eventName + '-highPrecision', listener);
+    }
 };
 
-ScrollProvider.offScroll = (listener, eventName = 'contentScroll') => Events.removeListener(eventName, listener);
+ScrollProvider.offScroll = (listener, eventName = 'contentScroll') => {
+    Events.removeListener(eventName, listener);
+    Events.removeListener(eventName + '-highPrecision', listener);
+};
 
 
 export default ScrollProvider;
