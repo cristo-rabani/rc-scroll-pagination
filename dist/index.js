@@ -78,7 +78,7 @@ var ScrollPagination = exports.ScrollPagination = function (_React$Component) {
                 var data = onFetchData() || [];
                 data.forEach(function (item) {
                     if (!_this.items[item._id]) {
-                        _this.items[item._id] = _react2.default.createElement(_this.props.ItemComponent || _List.ListItem, { key: item._id }, children(item));
+                        _this.items[item._id] = _this.getItemComponent(children(item), item._id);
                     }
                     _ids.push(item._id);
                 });
@@ -95,7 +95,14 @@ var ScrollPagination = exports.ScrollPagination = function (_React$Component) {
         return _this;
     }
 
-    ScrollPagination.prototype.componentWillMount = function componentWillMount() {
+    ScrollPagination.prototype.getItemComponent = function getItemComponent(children, key) {
+        if (this.props.ItemComponent === null) {
+            return children;
+        }
+        return _react2.default.createElement(this.props.ItemComponent || _List.ListItem, { key: key }, children);
+    };
+
+    ScrollPagination.prototype.componentDidMount = function componentDidMount() {
         _ScrollProvider2.default.onScroll(this.loadMore, this.eventName);
     };
 
@@ -111,7 +118,7 @@ var ScrollPagination = exports.ScrollPagination = function (_React$Component) {
             return _this2.items[id];
         });
         if (hasNextPart) {
-            items.push(_react2.default.createElement(this.props.ItemComponent || _List.ListItem, { key: 'loader' }, this.props.Loader || 'Loading ...'));
+            items.push(this.getItemComponent(this.props.Loader || 'Loading ...', 'loader'));
         }
 
         return _react2.default.createElement(this.props.ContainerComponent || _List.List, props, items);
@@ -121,6 +128,7 @@ var ScrollPagination = exports.ScrollPagination = function (_React$Component) {
         this.handlers.forEach(function (h) {
             return h.stop();
         });
+        this.handlers = [];
         _ScrollProvider2.default.offScroll(this.loadMore, this.eventName);
     };
 

@@ -117,10 +117,19 @@ ScrollProvider.onScroll = function (listener) {
     if (initialize) {
         Events.lastEventData[eventName] && listener(Events.lastEventData[eventName]);
     }
+
     Events.on(eventName, listener);
+
     if (highPrecision) {
         Events.on(eventName + '-highPrecision', listener);
     }
+
+    return function offScroll() {
+        Events.removeListener(eventName, listener);
+        if (highPrecision) {
+            Events.removeListener(eventName + '-highPrecision', listener);
+        }
+    };
 };
 
 ScrollProvider.offScroll = function (listener) {

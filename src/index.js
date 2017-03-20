@@ -33,11 +33,7 @@ export class ScrollPagination extends React.Component {
                 const data = onFetchData() || [];
                 data.forEach(item => {
                     if (!this.items[item._id]) {
-                        this.items[item._id] = React.createElement(
-                            this.props.ItemComponent || ListItem,
-                            {key: item._id},
-                            children(item)
-                        );
+                        this.items[item._id] = this.getItemComponent(children(item), item._id);
                     }
                     _ids.push(item._id);
                 });
@@ -54,7 +50,18 @@ export class ScrollPagination extends React.Component {
 
     }
 
-    componentWillMount () {
+    getItemComponent (children, key) {
+        if (this.props.ItemComponent === null) {
+            return children;
+        }
+        return React.createElement(
+            this.props.ItemComponent || ListItem,
+            {key},
+            children
+        )
+    }
+
+    componentDidMount () {
         ScrollProvider.onScroll(this.loadMore, this.eventName);
     }
 
@@ -63,11 +70,7 @@ export class ScrollPagination extends React.Component {
         const props = _.omit(this.props, EXCLUSIVE_PROPS);
         const items = _.take(_ids, this.limit).map(id => this.items[id]);
         if (hasNextPart) {
-            items.push(React.createElement(
-                this.props.ItemComponent || ListItem,
-                {key: 'loader'},
-                this.props.Loader || 'Loading ...'
-            ));
+            items.push(this.getItemComponent(this.props.Loader || 'Loading ...', 'loader'));
         }
 
         return React.createElement(
@@ -79,6 +82,7 @@ export class ScrollPagination extends React.Component {
 
     componentWillUnmount () {
         this.handlers.forEach(h => h.stop());
+        this.handlers = [];
         ScrollProvider.offScroll(this.loadMore, this.eventName);
     }
 }
