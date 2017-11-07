@@ -31,6 +31,10 @@ var _ScrollProvider = require('./ScrollProvider');
 
 var _ScrollProvider2 = _interopRequireDefault(_ScrollProvider);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ONE_PART = 25;
@@ -143,14 +147,14 @@ ScrollPagination.defaultProps = {
 };
 
 ScrollPagination.propTypes = {
-    Loader: _react2.default.PropTypes.node,
-    ContainerComponent: _react2.default.PropTypes.func,
-    ItemComponent: _react2.default.PropTypes.func,
-    step: _react2.default.PropTypes.number,
-    eventName: _react2.default.PropTypes.string,
-    onSubscribe: _react2.default.PropTypes.func,
-    children: _react2.default.PropTypes.func.isRequired,
-    onFetchData: _react2.default.PropTypes.func.isRequired
+    Loader: _propTypes2.default.node,
+    ContainerComponent: _propTypes2.default.func,
+    ItemComponent: _propTypes2.default.func,
+    step: _propTypes2.default.number,
+    eventName: _propTypes2.default.string,
+    onSubscribe: _propTypes2.default.func,
+    children: _propTypes2.default.func.isRequired,
+    onFetchData: _propTypes2.default.func.isRequired
 };
 
 exports.ScrollProvider = _ScrollProvider2.default;

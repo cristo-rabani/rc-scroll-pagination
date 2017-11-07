@@ -2,6 +2,7 @@ import React from 'react';
 import {List, ListItem} from 'material-ui/List';
 import _ from 'lodash';
 import ScrollProvider from './ScrollProvider';
+import PropTypes from 'prop-types';
 
 const ONE_PART = 25;
 const EXCLUSIVE_PROPS = [
@@ -58,7 +59,7 @@ export class ScrollPagination extends React.Component {
             this.props.ItemComponent || ListItem,
             {key},
             children
-        )
+        );
     }
 
     componentDidMount () {
@@ -93,14 +94,14 @@ ScrollPagination.defaultProps = {
 };
 
 ScrollPagination.propTypes = {
-    Loader: React.PropTypes.node,
-    ContainerComponent:  React.PropTypes.func,
-    ItemComponent:  React.PropTypes.func,
-    step: React.PropTypes.number,
-    eventName: React.PropTypes.string,
-    onSubscribe: React.PropTypes.func,
-    children: React.PropTypes.func.isRequired,
-    onFetchData: React.PropTypes.func.isRequired
+    Loader: PropTypes.node,
+    ContainerComponent:  PropTypes.func,
+    ItemComponent:  PropTypes.func,
+    step: PropTypes.number,
+    eventName: PropTypes.string,
+    onSubscribe: PropTypes.func,
+    children: PropTypes.func.isRequired,
+    onFetchData: PropTypes.func.isRequired
 };
 
 export {ScrollProvider};

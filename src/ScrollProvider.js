@@ -64,7 +64,7 @@ ScrollProvider.onScroll = (listener, eventName = 'contentScroll', {initialize = 
         if (highPrecision) {
             Events.removeListener(eventName + '-highPrecision', listener);
         }
-    }
+    };
 };
 
 ScrollProvider.offScroll = (listener, eventName = 'contentScroll') => {
